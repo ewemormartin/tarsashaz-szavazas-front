@@ -1,0 +1,137 @@
+/* Hero Szekció */
+.hero-wrap {
+  position: relative;
+  height: 600px; /* Kicsit növeltem a magasságot, hogy ne legyen zsúfolt */
+  background: url('/assets/kepek/carousel_haz4.jpg') center/cover no-repeat fixed;
+  
+  /* JAVÍTÁS: Töröltük a negatív margót, és adtunk paddingot a navbar miatt */
+  margin-top: 0; 
+  padding-top: 100px; /* Ez tolja le a szöveget a navbar alól */
+  
+  display: flex;
+  align-items: center; /* Maradhat középen, a padding-top korrigálja az eltolást */
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* A gradiens most már a padding miatt is szépen simul a háttérbe */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, var(--bg-color) 100%);
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 4.5rem; /* Brutál nagy, tekintélyt parancsoló cím */
+  letter-spacing: -2px;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  color: #fff !important;
+  margin-bottom: 1.5rem;
+}
+
+
+.hero-subtitle {
+  color: rgba(255,255,255,0.8) !important;
+}
+
+.hero-divider {
+  width: 100px;
+  height: 5px;
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+
+/* Carousel */
+.carousel-img {
+  height: 550px;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+.carousel-caption-custom {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  right: 40px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: left;
+}
+
+/* Feature Kártyák */
+.feature-card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.feature-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.feature-icon-wrap {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-color);
+  color: #fff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Stats Box */
+.stats-box {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  backdrop-filter: blur(10px);
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease;
+}
+
+.stat-card:hover {
+  background: rgba(var(--primary-rgb), 0.1);
+}
+
+/* Segédosztályok */
+.fw-black { font-weight: 900; }
+.ls-widest { letter-spacing: 0.2em; }
+.shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+.border-theme { border: 1px solid var(--border-color) !important; }
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3) !important;
+}
+
+/* Animációk */
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-wrap { height: 400px; }
+  .carousel-img { height: 350px; }
+  .carousel-caption-custom { bottom: 20px; left: 20px; right: 20px; padding: 15px; }
+}

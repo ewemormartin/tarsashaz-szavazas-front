@@ -1,0 +1,22 @@
+TODO: admin kozgyules vezerlese jelenleti arany (hanyan vesznek reszt) marad
+TODO: ugyan itt szavazatok: 0/0 tulajdonos helyett tulajdoni hanyad
+TODO: megjeleniteni adminnak a kozgyules eremenyet (hány igen nem tartozkodok)
+TODO: felszolalas megjeleniteni adminnak
+TODO: User felszólalásnál megjelenik a felszólalás a user oldalán és tud rá szavazni xd
+
+TODO: szavazas utan pdf-nel ne elutasitva legyen ha nincs eleg szavazo hanem ervenytelen
+TODO: design
+TODO: disable user adminnal (inaktiv ha elkoltozik)
+TODO: szuro: azokat jelenitse meg ami nem tortent meg
+TODO: navbarba ne csak rolunk legyen usernek
+TODO: hitelesito email kuldese
+TODO: akinek 0 a tulajdoni hanyada az nem lathat semmit (odairjuk h frissitve lesz ezert nem lat semmit)
+TODO: mobilnezetre ranezni
+TODO: usernek szavaz elott legyen egy reszvetel a szavazasban gomb -> kuldje el az tulajdoni hanyadot -> utana lehessen szavazni
+TODO: regisztracional jelszonal irja hogy mik a feltetelek
+
+TODO: adminnak megjelenjen a Jelenléti arány ha ranyom a user a reszvetel a szavazasban gombra
+TODO: ha a jelenleti arany 50+1% akkor lehet elinditani a szavazast. ha nem eri el akkor nem lehet és 15 perc mulva urja lehet inditani (az ujnal mar nem szamit a jelenleti arany)
+
+TODO: elfelejtett jelszo
+TODO: mukodjon ugy hogy egyszerre tujon bejelentkezni az admin is meg a user is

@@ -1,0 +1,208 @@
+<div class="container mt-4 mb-5 animate-fade-in">
+  <!-- FŐ FEJLÉC -->
+  <div class="d-flex justify-content-between align-items-center mb-5 no-print">
+    <div class="page-title-box">
+      <h2 class="fw-black text-uppercase tracking-wider mb-0 text-primary">
+        <i class="bi bi-shield-lock-fill me-2"></i>Közgyűlés Vezérlése
+      </h2>
+      <p class="text-muted small mb-0">Rendszeradminisztrátori felügyelet</p>
+    </div>
+    <div class="d-flex gap-3">
+      <button class="btn btn-success shadow-sm rounded-pill px-4" routerLink="/admin/create-meeting">
+        <i class="bi bi-plus-lg me-2"></i>Új közgyűlés
+      </button>
+      <button class="btn btn-dark shadow-sm rounded-pill px-4" (click)="printReport()">
+        <i class="bi bi-file-earmark-pdf-fill me-2"></i>PDF Export
+      </button>
+    </div>
+  </div>
+
+  @for (meeting of meetings; track meeting.id) {
+  <div class="card border-0 shadow-lg rounded-4 mb-5 overflow-hidden bg-body">
+    <div class="bg-primary" style="height: 6px;"></div>
+
+    <div class="p-4 p-lg-5">
+      
+      <!-- KÖZGYŰLÉS ADATAI ÉS MŰVELETEK -->
+      <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="no-print">
+          <h3 class="fw-bold mb-1 text-dark">{{ meeting.title }}</h3>
+          <div class="text-muted small d-flex gap-3">
+            <span><i class="bi bi-calendar3 me-1"></i> {{ meeting.meeting_date | date:"yyyy.MM.dd HH:mm" }}</span>
+            <span><i class="bi bi-geo-alt-fill me-1"></i> {{ meeting.location }}</span>
+          </div>
+          @if (meeting.is_repeated) {
+            <span class="badge bg-warning text-dark mt-2 shadow-sm rounded-pill"><i class="bi bi-arrow-repeat me-1"></i>Megismételt közgyűlés</span>
+          }
+        </div>
+        
+        <div class="d-flex gap-2 no-print">
+          <!-- HA NEM LOCKOLT: Mutatjuk a gombokat -->
+          @if (!isMeetingLocked(meeting.agenda_items)) {
+            <button [routerLink]="['/admin/edit-meeting', meeting.id]" class="btn btn-outline-secondary btn-sm rounded-circle p-2 border-0 shadow-sm" title="Szerkesztés">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button (click)="onDeleteMeeting(meeting.id)" class="btn btn-outline-danger btn-sm rounded-circle p-2 border-0 shadow-sm" title="Törlés">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          } @else {
+            <!-- HA LOCKOLT (Folyamatban vagy Lezárva): Csak egy lakat és egy infó -->
+            <span class="badge bg-light text-muted border px-3 py-2 rounded-pill">
+              <i class="bi bi-lock-fill me-1"></i> Adatok zárolva (Folyamatban)
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- KPI SZEKCIÓ -->
+      <div class="row g-4 mb-5 no-print">
+        <div class="col-lg-7">
+          <div class="p-4 rounded-4 bg-light border shadow-sm h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h6 class="text-muted small fw-bold text-uppercase mb-0">Jelenléti arány</h6>
+              @if (!isStartDisabled(meeting)) {
+                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold border border-success">
+                  <i class="bi bi-check-circle-fill me-1"></i> Határozatképes
+                </span>
+              } @else {
+                <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fw-bold border border-danger">
+                  <i class="bi bi-exclamation-triangle-fill me-1"></i> Nem határozatképes
+                </span>
+              }
+            </div>
+            <div class="d-flex align-items-baseline mb-3">
+              <h2 class="display-5 fw-black mb-0 text-dark">{{ calculateAttendance(meeting.present_users) }}</h2>
+              <span class="text-muted ms-2 fs-5">/ 10000 th.</span>
+            </div>
+            @if(isStartDisabled(meeting)) {
+              <button class="btn btn-link btn-sm p-0 text-decoration-none fw-bold" (click)="onToggleRepeated(meeting.id)">
+                <i class="bi bi-unlock-fill me-1"></i> Megismételt közgyűlés indítása (Korlát feloldása)
+              </button>
+            }
+          </div>
+        </div>
+        
+        <div class="col-lg-5">
+          <div class="p-4 rounded-4 bg-info text-white shadow-sm h-100 d-flex flex-column justify-content-center align-items-center text-center cursor-pointer hover-lift"
+               (click)="showSpeeches(meeting)" style="cursor: pointer;">
+            <i class="bi bi-chat-left-text-fill display-4 mb-2"></i>
+            <h4 class="fw-black mb-1">Felszólalások ({{ getSpeechCount(meeting) }})</h4>
+            <p class="small mb-0 opacity-75 fw-bold">Név szerinti lista</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TÁBLÁZAT -->
+      <div class="table-responsive no-print border rounded-4 bg-white">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th class="ps-4">Napirendi pont</th>
+              <th class="text-center">Státusz</th>
+              <th class="text-center">Súlyozott voksok (th.)</th>
+              <th class="text-end pe-4">Vezérlés</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of meeting.agenda_items; track item.id) {
+            <tr>
+              <td class="ps-4">
+                <div class="fw-bold text-dark">{{ item.title }}</div>
+                <div class="text-muted small">Pont ID: #{{ item.id }}</div>
+              </td>
+              <td class="text-center">
+                <span class="badge px-3 py-2 rounded-pill fs-7" [ngClass]="getStatusBadgeClass(item.status)">{{ item.status }}</span>
+              </td>
+              <td class="text-center">
+                @if (item.status !== 'PENDING') {
+                  <div class="d-flex flex-column align-items-center">
+                    <span class="badge bg-primary rounded-pill mb-1">Összesen: {{ getItemVoteSum(item) }}</span>
+                    <div class="small fw-bold d-flex gap-2">
+                      <span class="text-success">I: {{ getVoteResults(item).yes }}</span>
+                      <span class="text-danger">N: {{ getVoteResults(item).no }}</span>
+                      <span class="text-secondary">T: {{ getVoteResults(item).abstain }}</span>
+                    </div>
+                  </div>
+                } @else { <span class="text-muted italic">Indításra vár...</span> }
+              </td>
+              <td class="text-end pe-4">
+                @if (item.status === 'PENDING') {
+                  <button (click)="updateStatus(item.id, 'ACTIVE')" class="btn btn-success btn-sm px-4 rounded-pill fw-bold shadow-sm" [disabled]="isStartDisabled(meeting)">Indítás</button>
+                } @else if (item.status === 'ACTIVE') {
+                  <button (click)="updateStatus(item.id, 'CLOSED')" class="btn btn-danger btn-sm px-4 rounded-pill fw-bold shadow-sm">Lezárás</button>
+                } @else {
+                  <span class="text-muted small fw-bold bg-light p-2 rounded px-3"><i class="bi bi-lock-fill"></i> Véglegesítve</span>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <!-- NYOMTATÁSI NÉZET -->
+      <div class="print-only" style="break-after: page; page-break-after: always;">
+        <h1 style="text-align: center; border-bottom: 2px solid black; padding-bottom: 10px;">
+          Jegyzőkönyvi Kivonat
+        </h1>
+
+        <div style="margin-bottom: 30px;">
+          <h3>{{ meeting.title }} @if(meeting.is_repeated){ (Megismételt közgyűlés) }</h3>
+          <p><strong>Időpont:</strong> {{ meeting.meeting_date | date:"yyyy.MM.dd HH:mm" }}</p>
+          <p><strong>Helyszín:</strong> {{ meeting.location }}</p>
+          <p><strong>Jelenléti arány:</strong> {{ calculateAttendance(meeting.present_users) }} / 10000 th.</p>
+        </div>
+
+        <div style="border-top: 1px solid #ccc; margin-bottom: 20px;"></div>
+
+        @for (item of meeting.agenda_items; track item.id) {
+  <div class="mb-5" style="page-break-inside: avoid;">
+    <h4 class="fw-bold mb-3">{{ item.title }}</h4>
+    
+    <div class="p-4 bg-light rounded-3 border shadow-none" style="border: 1px solid #ccc !important;">
+      <div class="mb-3">
+        <strong class="small text-muted text-uppercase">Szavazati arányok:</strong><br>
+        <span class="fs-5">
+          IGEN: {{ getVoteResults(item).yes }} th. | 
+          NEM: {{ getVoteResults(item).no }} th. | 
+          TARTÓZKODIK: {{ getVoteResults(item).abstain }} th.
+        </span>
+      </div>
+      
+      <div class="fs-3">
+        <strong>HATÁROZAT: </strong>
+        
+        <!-- 1. Ellenőrizzük az érvényességet (Quorum) -->
+        @if (calculateAttendance(meeting.present_users) <= 5000 && !meeting.is_repeated) {
+          <span class="text-danger fw-bold">ÉRVÉNYTELEN</span>
+          <div class="small text-danger">(A közgyűlés nem volt határozatképes)</div>
+        } 
+        
+        <!-- 2. Ha érvényes, nézzük az eredményt az új szabály szerint -->
+        @else if (item.status === 'CLOSED') {
+          @if (isAccepted(item, meeting)) {
+            <span class="text-success fw-bold">ELFOGADVA</span>
+          } @else {
+            <span class="text-danger fw-bold">ELUTASÍTVA</span>
+          }
+        } @else {
+          <span class="text-muted italic">Nincs lezárva</span>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+
+        <!-- Aláírás -->
+        <div style="margin-top: 80px; float: right; width: 250px; text-align: center;">
+          <div style="border-top: 1px solid black; padding-top: 5px;">
+            <p style="font-size: 10pt;">Közös Képviselő / Levezető elnök</p>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+      </div>
+
+    </div>
+  </div>
+  }
+</div>

@@ -1,0 +1,116 @@
+<div class="container mt-5 animate-fade-in">
+  <!-- FEJLÉC SZEKCIÓ -->
+  <div class="text-center mb-5">
+    <div class="icon-badge mx-auto mb-3 shadow-sm">
+      <i class="bi bi-question-diamond-fill text-primary fs-1"></i>
+    </div>
+    <h1 class="display-5 fw-bold">Hogyan segíthetünk?</h1>
+    <p class="text-muted fs-5 mx-auto" style="max-width: 600px;">
+      Üdvözöljük a Társasházi Szavazórendszer súgójában. Itt minden választ megtalál a digitális közgyűléssel kapcsolatban.
+    </p>
+  </div>
+
+  <!-- GYORS ELÉRÉSŰ KÁRTYÁK -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="card help-card h-100 border-0 shadow-sm p-3">
+        <div class="card-body text-center">
+          <i class="bi bi-check2-circle text-success fs-2 mb-3 d-block"></i>
+          <h5 class="fw-bold">Szavazás</h5>
+          <p class="small text-muted">Ismerje meg, hogyan adhatja le súlyozott szavazatát másodpercek alatt.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card help-card h-100 border-0 shadow-sm p-3">
+        <div class="card-body text-center">
+          <i class="bi bi-shield-lock text-primary fs-2 mb-3 d-block"></i>
+          <h5 class="fw-bold">Biztonság</h5>
+          <p class="small text-muted">Tudja meg, hogyan védjük adatait és a szavazás hitelességét.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card help-card h-100 border-0 shadow-sm p-3">
+        <div class="card-body text-center">
+          <i class="bi bi-person-gear text-warning fs-2 mb-3 d-block"></i>
+          <h5 class="fw-bold">Profilkezelés</h5>
+          <p class="small text-muted">Saját adatok ellenőrzése és a tulajdoni hányad megtekintése.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RÉSZLETES KÉRDÉSEK (ACCORDION) -->
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <div class="accordion custom-accordion shadow-sm" id="helpAccordion">
+        
+        <!-- SZAVAZÁS -->
+        <div class="accordion-item border-0 mb-2 overflow-hidden rounded-3">
+          <h2 class="accordion-header">
+            <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#voteHelp">
+              <i class="bi bi-box-seam me-2 text-primary"></i> Hogyan működik a szavazás?
+            </button>
+          </h2>
+          <div id="voteHelp" class="accordion-collapse collapse show" data-bs-parent="#helpAccordion">
+            <div class="accordion-body text-muted">
+              A <strong>Szavazás</strong> menüpontban az adminisztrátor által éppen megnyitott napirendi pontokat látja. 
+              A rendszer automatikusan számolja az Ön tulajdoni hányadát, így a leadott voks (Igen/Nem/Tartózkodás) 
+              a tulajdoni lap szerinti súllyal kerül beszámításra.
+            </div>
+          </div>
+        </div>
+
+        <!-- FELSZÓLALÁS -->
+        <div class="accordion-item border-0 mb-2 overflow-hidden rounded-3">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#speechHelp">
+              <i class="bi bi-megaphone me-2 text-primary"></i> Mi az a "Felszólalást kérek"?
+            </button>
+          </h2>
+          <div id="speechHelp" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+            <div class="accordion-body text-muted">
+              Ha egy napirendi ponthoz észrevétele vagy kérdése van, a gomb megnyomásával jelezheti szándékát a levezető elnöknek. 
+              Itt rövid szöveges üzenetet is küldhet, amely bekerül a jegyzőkönyvbe.
+            </div>
+          </div>
+        </div>
+
+        <!-- TÉMAVÁLTÁS -->
+        <div class="accordion-item border-0 mb-2 overflow-hidden rounded-3">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#themeHelp">
+              <i class="bi bi-palette me-2 text-primary"></i> Hogyan válthatok témát?
+            </button>
+          </h2>
+          <div id="themeHelp" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+            <div class="accordion-body text-muted">
+              A felső navigációs sávban a <strong>🎨 Téma</strong> gombra kattintva választhat a Világos, Sötét, Kék vagy a prémium <strong>Emerald Luxury</strong> megjelenések közül. A rendszer megjegyzi választását.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- KAPCSOLAT KÁRTYA -->
+  <div class="row justify-content-center mt-5 pb-5">
+    <div class="col-lg-9">
+      <div class="card contact-footer-card border-0 shadow-lg text-white">
+        <div class="card-body p-4 d-md-flex align-items-center justify-content-between">
+          <div>
+            <h4 class="fw-bold mb-1">Nem találja a választ?</h4>
+            <p class="mb-0 opacity-75">Forduljon bizalommal a közös képviselőhöz technikai segítségért.</p>
+          </div>
+          <div class="mt-3 mt-md-0">
+            <a href="mailto:admin@haz.hu" class="btn btn-light fw-bold px-4 rounded-pill">
+              <i class="bi bi-envelope-fill me-2"></i> Kapcsolatfelvétel
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

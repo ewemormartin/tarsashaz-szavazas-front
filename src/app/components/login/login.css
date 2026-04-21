@@ -1,0 +1,130 @@
+/* --- Háttér kezelés --- */
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.bg-image-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg-image {
+  position: absolute;
+  inset: 0;
+  background: url('/assets/kepek/tarsashaz_kep.jpg') center/cover no-repeat;
+  filter: blur(8px) brightness(0.6);
+  transform: scale(1.1); /* Blur széljavítás */
+}
+
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent, rgba(0,0,0,0.4));
+}
+
+/* --- Kártya stílus (Modern SaaS) --- */
+.login-card {
+  border-radius: 28px !important;
+  max-width: 440px;
+  width: 100%;
+  z-index: 2;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.login-accent {
+  height: 6px;
+  background: linear-gradient(90deg, #0d6efd, #00d2ff);
+}
+
+.brand-logo {
+  width: 65px;
+  height: 65px;
+  background: #f8f9fa;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #0d6efd;
+}
+
+/* --- Inputok --- */
+.custom-input-group {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.custom-input-group input:focus {
+  background-color: #fff !important;
+  box-shadow: none;
+}
+
+/* --- Gombok --- */
+.btn-primary-pro {
+  background: linear-gradient(45deg, #0d6efd, #0056b3);
+  color: white;
+  border: none;
+  font-weight: 800;
+  border-radius: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary-pro:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(13, 110, 253, 0.4) !important;
+  filter: brightness(1.1);
+}
+
+.btn-primary-pro:active {
+  transform: translateY(-1px);
+}
+
+/* --- Egyedi Hibaüzenet --- */
+.alert-danger-custom {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border-radius: 12px;
+  border-left: 4px solid #e53e3e;
+}
+
+/* --- Animációk --- */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.x-small { font-size: 0.7rem; }
+.fw-black { font-weight: 900; }
+.tracking-tighter { letter-spacing: -1px; }
+
+/* Mobilos finomítás */
+@media (max-width: 576px) {
+  .login-card {
+    border-radius: 0 !important;
+    min-height: 100vh;
+    max-width: none;
+  }
+}

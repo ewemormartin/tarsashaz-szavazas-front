@@ -1,0 +1,103 @@
+<div class="login-page animate-fade-in">
+  <!-- Dinamikus háttér -->
+  <div class="bg-image-wrapper">
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+  </div>
+
+  <div class="login-container d-flex align-items-center justify-content-center">
+    <div class="card login-card shadow-2xl border-0 overflow-hidden bg-body">
+      
+      <!-- FELSŐ DEKORATÍV CSÍK -->
+      <div class="login-accent"></div>
+
+      <div class="p-4 p-md-5">
+        <div class="text-center mb-5">
+          <div class="brand-logo mx-auto mb-3 shadow-sm">
+            <i class="bi bi-shield-lock-fill text-primary"></i>
+          </div>
+          <h2 class="fw-black text-uppercase tracking-tighter mb-1 text-color">Közgyűlés<span class="text-primary">Pro</span></h2>
+          <p class="text-muted small fw-bold">Hitelesített Digitális Szavazórendszer</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="needs-validation">
+
+          <!-- E-mail mező -->
+          <div class="mb-4">
+            <label class="form-label small fw-bold text-uppercase opacity-75">Hálózati azonosító (Email)</label>
+            <div class="input-group custom-input-group shadow-sm">
+              <span class="input-group-text border-0 bg-light">
+                <i class="bi bi-envelope-fill text-muted"></i>
+              </span>
+              <input type="email" formControlName="email" 
+                class="form-control border-0 bg-light py-3"
+                [class.is-invalid]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+                placeholder="pelda@email.hu">
+            </div>
+            @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+              <div class="text-danger x-small mt-1 fw-bold">Érvényes e-mail cím szükséges!</div>
+            }
+          </div>
+
+          <!-- Jelszó mező -->
+          <div class="mb-4">
+            <div class="d-flex justify-content-between">
+              <label class="form-label small fw-bold text-uppercase opacity-75">Jelszó</label>
+            </div>
+            <div class="input-group custom-input-group shadow-sm">
+              <span class="input-group-text border-0 bg-light">
+                <i class="bi bi-key-fill text-muted"></i>
+              </span>
+              <input type="password" formControlName="password" 
+                class="form-control border-0 bg-light py-3"
+                [class.is-invalid]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+                placeholder="******">
+            </div>
+            @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+              <div class="text-danger x-small mt-1 fw-bold">A jelszó megadása kötelező!</div>
+            }
+          </div>
+
+          <!-- Hibaüzenet panel -->
+          @if (errorMessage) {
+            <div class="alert alert-danger-custom border-0 py-3 small text-center mb-4 animate-shake">
+              <i class="bi bi-exclamation-octagon-fill me-2"></i> {{ errorMessage }}
+            </div>
+          }
+
+          <!-- Belépés gomb -->
+          <button type="submit" [disabled]="loginForm.invalid || loading" class="btn btn-primary-pro w-100 shadow-lg py-3">
+            @if (loading) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Hitelesítés...
+            } @else {
+              <i class="bi bi-box-arrow-in-right me-2"></i> Bejelentkezés
+            }
+          </button>
+
+          <!-- Másodlagos linkek -->
+          <div class="mt-5 pt-4 border-top">
+            <div class="row g-2">
+              <div class="col-6">
+                <a routerLink="/register" class="btn btn-light btn-sm w-100 fw-bold py-2 border text-muted">
+                  <i class="bi bi-person-plus me-1"></i> Regisztráció
+                </a>
+              </div>
+              <div class="col-6">
+                <a routerLink="/forgot-password" class="btn btn-light btn-sm w-100 fw-bold py-2 border text-muted">
+                  <i class="bi bi-question-circle me-1"></i> Elfelejtettem
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+        <div class="text-center mt-5 opacity-50">
+          <p class="mb-0 x-small fw-bold">SECURE ENCRYPTED ACCESS v1.2</p>
+          <small class="x-small">Társasházi Szavazórendszer © 2026</small>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

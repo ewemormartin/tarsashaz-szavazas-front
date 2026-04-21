@@ -1,0 +1,72 @@
+/* Fejléc ikon */
+.icon-badge {
+    width: 80px;
+    height: 80px;
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+}
+
+/* Help Kártyák */
+.help-card {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 1.25rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.help-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Accordion egyedi stílus */
+.custom-accordion .accordion-item {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.custom-accordion .accordion-button {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    box-shadow: none;
+}
+
+.custom-accordion .accordion-button:not(.collapsed) {
+    color: var(--primary-color);
+    background-color: rgba(var(--primary-rgb), 0.05) !important;
+}
+
+.custom-accordion .accordion-button::after {
+    filter: invert(var(--calendar-invert));
+}
+
+/* Kapcsolat kártya (Emerald/Primary stílus) */
+.contact-footer-card {
+    background: linear-gradient(135deg, var(--primary-color), #2c3e50);
+    border-radius: 1.5rem;
+}
+
+/* Animáció */
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Téma-specifikus javítások */
+:host-context(.emerald-theme) .contact-footer-card {
+    background: linear-gradient(135deg, #27ae60, #0a1a12);
+    border: 1px solid var(--accent-color);
+}
+
+:host-context(.emerald-theme) .help-card:hover {
+    border-color: var(--accent-color) !important;
+}

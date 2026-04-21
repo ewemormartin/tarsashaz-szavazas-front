@@ -1,0 +1,82 @@
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card shadow-lg border-0 p-4" style="max-width: 500px; width: 100%; border-radius: 15px;">
+    <div class="text-center mb-4">
+      <i class="bi bi-person-plus-fill text-primary" style="font-size: 3rem;"></i>
+      <h2 class="fw-bold mt-2">Regisztráció</h2>
+      <p class="text-muted">Hozzon létre fiókot a szavazáshoz</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Teljes név -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Teljes név</label>
+        <input type="text" formControlName="name" class="form-control form-control-lg" 
+               [class.is-invalid]="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
+               placeholder="Kovács János">
+        @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+          <div class="invalid-feedback">A név megadása kötelező (min. 3 karakter).</div>
+        }
+      </div>
+
+      <!-- E-mail cím -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">E-mail cím</label>
+        <input type="email" formControlName="email" class="form-control form-control-lg" 
+               [class.is-invalid]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+               placeholder="pelda@email.hu">
+        @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
+          <div class="invalid-feedback">Érvényes e-mail címet adjon meg!</div>
+        }
+      </div>
+
+      <!-- Jelszó szekció -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Jelszó</label>
+          <input type="password" formControlName="password" class="form-control form-control-lg"
+                 [class.is-invalid]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+                 placeholder="******">
+          
+          <!-- Jelszó hosszúság visszajelzés -->
+          @if (registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']) {
+            <div class="text-danger small mt-1 fw-bold">
+              <i class="bi bi-exclamation-circle"></i> Legalább 6 karakter kell!
+            </div>
+          } @else {
+            <small class="text-muted">Minimum 6 karakter.</small>
+          }
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">Megerősítés</label>
+          <input type="password" formControlName="password_confirmation" class="form-control form-control-lg"
+                 [class.is-invalid]="registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.hasError('mismatch')"
+                 placeholder="******">
+        </div>
+      </div>
+
+      <!-- Jelszó egyezőség hibaüzenet -->
+      @if (registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.hasError('mismatch')) {
+        <div class="alert alert-danger py-2 small shadow-sm">
+          <i class="bi bi-x-circle-fill me-2"></i> A két jelszó nem egyezik!
+        </div>
+      }
+
+      <!-- Regisztráció gomb -->
+      <button type="submit" [disabled]="registerForm.invalid || loading" class="btn btn-primary btn-lg w-100 mt-3 shadow">
+        @if (loading) { 
+          <span class="spinner-border spinner-border-sm me-2"></span> 
+          Feldolgozás...
+        } @else {
+          Fiók létrehozása
+        }
+      </button>
+
+      <div class="text-center mt-4">
+        <span class="text-muted">Már van fiókja?</span> 
+        <a routerLink="/login" class="ms-2 fw-bold text-decoration-none">Bejelentkezés</a>
+      </div>
+    </form>
+  </div>
+</div>

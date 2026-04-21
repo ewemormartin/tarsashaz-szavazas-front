@@ -1,0 +1,94 @@
+.edit-user-card {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-radius: 1.25rem;
+}
+
+/* Táblázat stílusok */
+.custom-table thead th {
+    background-color: rgba(0, 0, 0, 0.02);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+    padding: 1.25rem 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.user-row {
+    transition: background-color 0.2s ease;
+}
+
+.user-row:hover {
+    background-color: rgba(var(--primary-rgb), 0.03) !important;
+}
+
+/* Input csoport egyedi stílusa */
+.ratio-input-group .form-control {
+    border-color: #dee2e6;
+    font-weight: 600;
+}
+
+.ratio-input-group .form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary-color);
+}
+
+/* Avatar kör */
+.avatar-sm {
+    width: 35px;
+    height: 35px;
+    font-size: 0.85rem;
+}
+
+/* Egyedi mentés gomb */
+.btn-save-custom {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-save-custom:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+/* Animációk */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Téma-specifikus javítások */
+:host-context(.dark-theme) .bg-light,
+:host-context(.emerald-theme) .bg-light {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+:host-context(.emerald-theme) .edit-user-card {
+    border: 1px solid var(--accent-color) !important;
+    backdrop-filter: blur(15px);
+}
+
+:host-context(.emerald-theme) .input-group-text {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}

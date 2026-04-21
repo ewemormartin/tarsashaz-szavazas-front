@@ -1,0 +1,92 @@
+/* --- Kártya stílus --- */
+.edit-card {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+  border-radius: 24px;
+}
+
+/* --- Fejléc díszítés --- */
+.header-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), #2c3e50);
+}
+
+.header-icon-box {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* --- Magas kontrasztú Inputok --- */
+.high-contrast-group .input-group-text {
+  border: 2px solid #adb5bd !important;
+  border-right: none !important;
+}
+
+.form-control {
+  border: 2px solid #adb5bd !important;
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  padding: 12px 15px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1) !important;
+  background-color: #fff !important;
+}
+
+/* --- Egyedi Gomb --- */
+.btn-primary-pro {
+  background: linear-gradient(45deg, var(--primary-color), #0b5ed7);
+  color: white;
+  border: none;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 15px 40px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary-pro:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3) !important;
+}
+
+.btn-primary-pro:disabled {
+  background: #cbd5e0;
+  opacity: 0.6;
+}
+
+/* --- Tipográfia és Animáció --- */
+.fw-black { font-weight: 900; }
+.tracking-wider { letter-spacing: 1.5px; }
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Téma-specifikus (Sötét/Emerald) javítások --- */
+:host-context(.dark-theme) .edit-card,
+:host-context(.emerald-theme) .edit-card {
+  border: 1px solid var(--border-color) !important;
+}
+
+:host-context(.emerald-theme) .header-accent {
+  background: linear-gradient(90deg, #2ecc71, #d4af37);
+}

@@ -1,0 +1,296 @@
+.app-root {
+  background: transparent !important;
+}
+
+html,
+body,
+.app-root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  /* Kényszerített teljes magasság */
+  width: 100%;
+  display: block;
+}
+
+.light-theme {
+  --bg-color: #ffffff00;
+  --text-color: #212529;
+  --primary-color: #0d6efd;
+  /* Kék */
+  --nav-text: #ffffff;
+  --calendar-invert: 0;
+}
+
+.dark-theme {
+  --bg-color: #2b2828;
+  --text-color: #ffffff;
+  --primary-color: #2c2c2c;
+  /* Sötétszürke (a lila helyett) */
+  --nav-text: #ffffff;
+  --calendar-invert: 1;
+}
+
+.blue-theme {
+  --bg-color: #e3f2fd;
+  --text-color: #24426e;
+  --primary-color: #1976d2;
+  --nav-text: #ffffff;
+  --calendar-invert: 0;
+}
+
+.contrast-theme {
+  --bg-color: #000000;
+  --text-color: #ffff00;
+  --primary-color: #ffffff;
+  --nav-text: #ffffff;
+  --calendar-invert: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color) !important;
+  transition: all 0.3s ease;
+}
+
+/* Navbar szövegek javítása (hogy ne legyen fekete a sötétben) */
+.navbar-dark .nav-link,
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-text,
+.navbar-dark .navbar-toogler {
+  color: var(--nav-text) !important;
+}
+
+/* Kártyák (Card) igazítása */
+.card {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  /* Finom szegély */
+}
+
+/* Form elemek (Input, Textarea) igazítása */
+.form-control,
+.form-select {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  border: 1px solid rgba(128, 128, 128, 0.4);
+}
+
+/* Fókuszált állapot (amikor belekatttintasz) */
+.form-control:focus {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(var(--primary-rgb), 0.25);
+}
+
+/* Placeholder (halványabb szöveg az üres mezőkben) */
+.form-control::placeholder {
+  color: var(--text-color);
+  opacity: 0.5;
+}
+
+/* Dátumválasztó ikon színe sötét módban */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(var(--calendar-invert, 0));
+}
+
+/* --- GLOBÁLIS RESZPONZÍV RESET --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Megakadályozza az oldalsó görgetést */
+}
+
+/* Kényszerített szövegszín a változókhoz */
+h1, h2, h3, h4, h5, h6, p, span, div, label {
+    color: var(--text-color);
+}
+
+/* --- ADMIN ÉS USER DASHBOARD KÁRTYÁK --- */
+.meeting-card, .create-card, .edit-card {
+    background: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-radius: 24px;
+    position: relative;
+    transition: transform 0.2s ease-in-out;
+}
+
+.meeting-card-accent, .header-accent {
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary-color), #2c3e50);
+}
+
+/* KPI Kártyák (Jelenlét, Felszólalások) */
+.kpi-card {
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #0dcaf0, #0aa2c0) !important;
+}
+
+/* --- TÁBLÁZATOK KEZELÉSE --- */
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.custom-admin-table thead th {
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+/* --- FORM ELEMEK ÉS KONTRASZT --- */
+.form-control, .form-select {
+    border: 2px solid #adb5bd !important;
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    font-weight: 500;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15) !important;
+}
+
+/* Magas kontrasztú mezők */
+.high-contrast-input-field {
+    border: 2px solid #ced4da !important;
+    border-radius: 8px;
+}
+
+/* --- SPECIÁLIS GOMBOK --- */
+.btn-emerald-pro {
+    background-color: #27ae60;
+    color: white;
+    font-weight: 700;
+    border-radius: 12px;
+}
+
+.btn-primary-pro {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 700;
+}
+
+/* Szűrő gomb fixálása */
+.filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter button {
+    margin-left: 0 !important; /* Töröltük a fix 200px-et */
+}
+
+/* --- MOBIL MEDIA QUERIES (Az igazi varázslat) --- */
+
+@media (max-width: 991px) {
+    /* Tablet és Mobil nézet */
+    .p-lg-5 {
+        padding: 1.5rem !important;
+    }
+    
+    .display-2 { font-size: 2.5rem !important; }
+    .display-3 { font-size: 2.2rem !important; }
+    .display-4 { font-size: 2rem !important; }
+    .display-5 { font-size: 1.8rem !important; }
+
+    .hero-wrap {
+        height: auto;
+        padding: 80px 20px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    /* Mobil specifikus beállítások */
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .meeting-card, .create-card, .edit-card {
+        border-radius: 16px;
+        margin-bottom: 2rem;
+    }
+
+    /* Gombok egymás alá rendezése mobilon */
+    .d-flex.gap-2, .d-flex.gap-3 {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%; /* Minden fő gomb legyen teljes szélességű mobilon */
+        margin-bottom: 5px;
+    }
+
+    /* Kijelentkezés és egyéb kis gombok kivétele a kényszerített szélesség alól */
+    .btn-sm, .navbar .btn, .btn-group .btn {
+        width: auto;
+    }
+
+    /* KPI kártyák (Attendance és Speeches) egymás alá */
+    .row.g-4.mb-5 .col-lg-7, 
+    .row.g-4.mb-5 .col-lg-5 {
+        width: 100%;
+    }
+
+    /* Táblázat "Kártya" mód (Opcionális, de a görgetés biztosított) */
+    .table-responsive {
+        border: 0;
+    }
+    
+    /* Create Meeting szekciók */
+    .step-num {
+        margin-bottom: 10px;
+    }
+    
+    .section-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Voter gombok: Igen, Nem, Tartózkodik egymás alá */
+    .d-md-flex.justify-content-md-center {
+        display: flex !important;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-lg {
+        padding: 12px;
+        font-size: 1.1rem;
+    }
+
+    /* Help Accordion */
+    .accordion-button {
+        font-size: 0.9rem;
+        padding: 15px 10px;
+    }
+}
+
+/* --- ANIMÁCIÓK ÉS EGYEBEK --- */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Téma-specifikus (Emerald Luxury) */
+:host-context(.emerald-theme) .meeting-card-accent {
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}

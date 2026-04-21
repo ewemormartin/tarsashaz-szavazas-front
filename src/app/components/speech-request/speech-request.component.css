@@ -1,0 +1,28 @@
+.page-bg {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/kepek/tarsashaz_kep.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px) brightness(0.6);
+  z-index: -1;
+}
+
+.content-layer {
+  position: relative;
+  z-index: 1;
+  padding-top: 20px;
+}
+
+.table {
+    background: white;
+}

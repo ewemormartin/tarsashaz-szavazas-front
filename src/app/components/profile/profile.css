@@ -1,0 +1,62 @@
+.profile-card {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Dekorációs fejléc sáv */
+.profile-header-bg {
+    height: 12px;
+    background: linear-gradient(90deg, var(--primary-color), #6610f2);
+}
+
+/* Profilkép kör */
+.avatar-circle {
+    width: 100px;
+    height: 100px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    border: 4px solid white;
+}
+
+/* Adat sorok stílusa */
+.info-item label {
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.bg-light-subtle {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Animáció */
+.animate-fade-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Téma-specifikus javítások */
+:host-context(.dark-theme) .avatar-circle,
+:host-context(.emerald-theme) .avatar-circle {
+    border-color: #333;
+}
+
+:host-context(.emerald-theme) .profile-header-bg {
+    background: linear-gradient(90deg, #2ecc71, #d4af37);
+}

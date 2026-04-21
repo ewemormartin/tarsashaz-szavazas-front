@@ -1,0 +1,35 @@
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Mobil optimalizálás: a gombok egymás alatt legyenek kis kijelzőn */
+@media (max-width: 576px) {
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.border-success {
+    border-left-color: #198754 !important;
+}
+
+.border-secondary {
+    border-left-color: #6c757d !important;
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 0.5em 0.8em;
+}
+#participate_button{
+    width: 100%;
+    margin-bottom: 0.5rem;
+    
+}
+.filter button{
+    margin-left: 200px;
+}
+h1, h2, p, span, div{
+  color: var(--text-color);
+}
