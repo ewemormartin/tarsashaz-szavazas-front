@@ -33,12 +33,10 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Kiolvassuk a tokent és az emailt az URL-ből
     this.token = this.route.snapshot.queryParams['token'];
     this.email = this.route.snapshot.queryParams['email'];
   }
 
-  // Ellenőrizzük, hogy a két jelszó egyezik-e
   passwordMatchValidator(g: FormGroup) {
     return g.get('password')?.value === g.get('password_confirmation')?.value
       ? null : { 'mismatch': true };

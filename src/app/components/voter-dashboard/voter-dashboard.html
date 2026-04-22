@@ -5,149 +5,155 @@
     <div class="container mt-4 mb-5">
 
       @if(currentUser) {
-        
-        <!-- 1. TODO: INAKTÍV FELHASZNÁLÓ KITILTÁSA -->
-        @if (!currentUser.is_active) {
-          <!-- INAKTÍV KÉPERNYŐ -->
-          <div class="alert alert-danger shadow-lg p-5 text-center mt-5 border-0" style="border-radius: 15px;">
-            <i class="bi bi-person-x-fill text-danger" style="font-size: 4rem;"></i>
-            <h2 class="fw-bold mt-3">A felhasználói fiók inaktív</h2>
-            <hr class="my-4">
-            <p class="lead">Az Ön hozzáférése korlátozva van. Valószínűleg elköltözött, vagy az adminisztrátor letiltotta a fiókját.</p>
-            <button class="btn btn-danger btn-lg mt-4 px-5 shadow" (click)="authService.logout()">
-              <i class="bi bi-box-arrow-right me-2"></i>Kijelentkezés
-            </button>
+
+      @if (!currentUser.is_active) {
+      <!-- INAKTÍV KÉPERNYŐ -->
+      <div class="alert alert-danger shadow-lg p-5 text-center mt-5 border-0" style="border-radius: 15px;">
+        <i class="bi bi-person-x-fill text-danger" style="font-size: 4rem;"></i>
+        <h2 class="fw-bold mt-3">A felhasználói fiók inaktív</h2>
+        <hr class="my-4">
+        <p class="lead">Az Ön hozzáférése korlátozva van. Valószínűleg elköltözött, vagy az adminisztrátor letiltotta a
+          fiókját.</p>
+        <button class="btn btn-danger btn-lg mt-4 px-5 shadow" (click)="authService.logout()">
+          <i class="bi bi-box-arrow-right me-2"></i>Kijelentkezés
+        </button>
+      </div>
+      }
+
+      @else {
+      <!-- 2. AKTÍV FELHASZNÁLÓ TARTALMA -->
+
+      <!-- Felhasználói kártya -->
+      @if (currentUser.ownership_ratio === 0) {
+      <div class="card shadow-sm border-0 mb-4 bg-primary text-white">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="mb-0">{{ currentUser.name }}</h5>
+            <small>Tulajdoni hányad: <strong>0 / 10000</strong></small>
           </div>
-        } 
-        
-        @else {
-          <!-- 2. AKTÍV FELHASZNÁLÓ TARTALMA -->
-          
-          <!-- Felhasználói kártya -->
-          @if (currentUser.ownership_ratio === 0) {
-            <div class="card shadow-sm border-0 mb-4 bg-primary text-white">
-              <div class="card-body d-flex justify-content-between align-items-center">
-                <div>
-                  <h5 class="mb-0">{{ currentUser.name }}</h5>
-                  <small>Tulajdoni hányad: <strong>0 / 10000</strong></small>
-                </div>
-                <i class="bi bi-person-circle fs-1"></i>
-              </div>
-            </div>
+          <i class="bi bi-person-circle fs-1"></i>
+        </div>
+      </div>
+      }
+
+      @if (currentUser.ownership_ratio === 0) {
+      <div class="alert alert-warning shadow p-5 text-center mt-5 border-0" style="border-radius: 15px;">
+        <i class="bi bi-person-exclamation fs-1"></i>
+        <h3 class="mt-3">Adatai frissítésre várnak</h3>
+        <p>Az Ön tulajdoni hányada 0. Kérjük, várja meg az adminisztrátor jóváhagyását.</p>
+      </div>
+      } @else {
+      <!-- SZŰRŐK ÉS KÖZGYŰLÉSEK -->
+      <div class="filter bg-white p-3 rounded shadow-sm mb-4">
+        <h2 class="h5 mb-0 d-flex justify-content-between align-items-center" (click)="closefilter()"
+          style="cursor: pointer;">
+          Szűrések <button class="btn btn-info btn-sm fw-bold">{{filterOn ? 'Lecsukás' : 'Megnyitás'}}</button>
+        </h2>
+        @if(filterOn){
+        <div class="mt-3" [formGroup]="meetingFilterForm">
+          <input type="text" class="form-control mb-2" placeholder="Név" formControlName="title">
+          <input type="date" class="form-control mb-2" formControlName="meeting_date">
+          <input type="text" class="form-control" placeholder="Helyszín" formControlName="location">
+        </div>
+        }
+      </div>
+
+      @for (item of meetings | meetingfilter: meetingFilterForm.value; track item.id) {
+      <div class="meeting-container mb-5 p-3 rounded bg-white shadow-sm border-top border-primary border-4">
+        <div class="mb-4">
+          <h2 class="h4 fw-bold text-primary mb-1">{{ item.title }}</h2>
+          <small class="text-muted"><i class="bi bi-calendar"></i> {{ item.meeting_date | date:'yyyy.MM.dd HH:mm' }} |
+            <i class="bi bi-geo-alt"></i> {{ item.location }}</small>
+        </div>
+
+        @if (!isParticipatingMap.get(item.id)) {
+        <div class="text-center p-4 border rounded bg-light">
+
+          @if (isMeetingClosed(item)) {
+          <i class="bi bi-lock-fill fs-2 text-muted mb-3 d-block"></i>
+          <h5 class="text-muted">A közgyűlés lezárult</h5>
+          <p class="text-muted small">Erre a közgyűlésre már nem lehet becsatlakozni, mert minden napirendi pontot
+            lezártak.</p>
+          <button class="btn btn-secondary mt-2 px-5" [disabled]="true">Lezárva</button>
+          } @else {
+          <h5>Regisztráció a közgyűlésre</h5>
+          <button class="btn btn-primary mt-2 px-5" (click)="onJoinMeeting(item.id)"
+            [disabled]="loading">Becsatlakozás</button>
           }
 
-          @if (currentUser.ownership_ratio === 0) {
-            <div class="alert alert-warning shadow p-5 text-center mt-5 border-0" style="border-radius: 15px;">
-              <i class="bi bi-person-exclamation fs-1"></i>
-              <h3 class="mt-3">Adatai frissítésre várnak</h3>
-              <p>Az Ön tulajdoni hányada 0. Kérjük, várja meg az adminisztrátor jóváhagyását.</p>
+        </div>
+        } @else {
+        @for (agenda_item of item.agenda_items; track agenda_item.id) {
+        <div class="card mb-4 border-start border-4"
+          [ngClass]="{'border-success': agenda_item.status === 'ACTIVE', 'border-secondary': agenda_item.status === 'CLOSED'}">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h5 class="card-title fw-bold mb-0">{{ agenda_item.title }}</h5>
+              <span class="badge rounded-pill" [ngClass]="getStatusClass(agenda_item.status)">
+                {{ agenda_item.status === 'ACTIVE' ? 'Szavazás folyamatban' : (agenda_item.status === 'CLOSED' ?
+                'Lezárva' : 'Várakozik') }}
+              </span>
             </div>
-          } @else {
-            <!-- SZŰRŐK ÉS KÖZGYŰLÉSEK -->
-            <div class="filter bg-white p-3 rounded shadow-sm mb-4">
-              <h2 class="h5 mb-0 d-flex justify-content-between align-items-center" (click)="closefilter()" style="cursor: pointer;">
-                Szűrések <button class="btn btn-info btn-sm fw-bold">{{filterOn ? 'Lecsukás' : 'Megnyitás'}}</button>
-              </h2>
-              @if(filterOn){
-                <div class="mt-3" [formGroup]="meetingFilterForm">
-                  <input type="text" class="form-control mb-2" placeholder="Név" formControlName="title">
-                  <input type="date" class="form-control mb-2" formControlName="meeting_date">
-                  <input type="text" class="form-control" placeholder="Helyszín" formControlName="location">
-                </div>
+            <p class="card-text">{{ agenda_item.description }}</p>
+
+            @if (agenda_item.resolutions && agenda_item.resolutions.length > 0) {
+            @let mainRes = agenda_item.resolutions[0];
+
+            <div class="voting-box p-3 bg-light border rounded mt-3">
+              <p class="mb-2"><strong>Határozati javaslat:</strong> {{ mainRes.text }}</p>
+
+              @if (agenda_item.status === 'ACTIVE') {
+              @if (!votedResolutionIds.has(mainRes.id)) {
+              <div class="d-flex gap-2 justify-content-center mt-3">
+                <button (click)="onVote(mainRes.id, 'yes')" class="btn btn-success px-4">IGEN</button>
+                <button (click)="onVote(mainRes.id, 'no')" class="btn btn-danger px-4">NEM</button>
+                <button (click)="onVote(mainRes.id, 'abstain')" class="btn btn-secondary px-4">TARTÓZKODIK</button>
+              </div>
+              } @else {
+              <div class="alert alert-success text-center mb-0 py-1 mt-2">
+                <i class="bi bi-check-circle-fill"></i> Ön szavazott.
+              </div>
+              }
               }
             </div>
 
-            @for (item of meetings | meetingfilter: meetingFilterForm.value; track item.id) {
-              <div class="meeting-container mb-5 p-3 rounded bg-white shadow-sm border-top border-primary border-4">
-                <div class="mb-4">
-                  <h2 class="h4 fw-bold text-primary mb-1">{{ item.title }}</h2>
-                  <small class="text-muted"><i class="bi bi-calendar"></i> {{ item.meeting_date | date:'yyyy.MM.dd HH:mm' }} | <i class="bi bi-geo-alt"></i> {{ item.location }}</small>
-                </div>
-
-                @if (!isParticipatingMap.get(item.id)) {
-                  <div class="text-center p-4 border rounded bg-light">
-                    
-                    <!-- JAVÍTOTT RÉSZ: Ellenőrizzük, hogy le van-e zárva a közgyűlés -->
-                    @if (isMeetingClosed(item)) {
-                      <i class="bi bi-lock-fill fs-2 text-muted mb-3 d-block"></i>
-                      <h5 class="text-muted">A közgyűlés lezárult</h5>
-                      <p class="text-muted small">Erre a közgyűlésre már nem lehet becsatlakozni, mert minden napirendi pontot lezártak.</p>
-                      <button class="btn btn-secondary mt-2 px-5" [disabled]="true">Lezárva</button>
-                    } @else {
-                      <h5>Regisztráció a közgyűlésre</h5>
-                      <button class="btn btn-primary mt-2 px-5" (click)="onJoinMeeting(item.id)" [disabled]="loading">Becsatlakozás</button>
-                    }
-
-                  </div>
-                } @else {
-                  @for (agenda_item of item.agenda_items; track agenda_item.id) {
-                    <div class="card mb-4 border-start border-4" [ngClass]="{'border-success': agenda_item.status === 'ACTIVE', 'border-secondary': agenda_item.status === 'CLOSED'}">
-                      <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                          <h5 class="card-title fw-bold mb-0">{{ agenda_item.title }}</h5>
-                          <span class="badge rounded-pill" [ngClass]="getStatusClass(agenda_item.status)">
-                            {{ agenda_item.status === 'ACTIVE' ? 'Szavazás folyamatban' : (agenda_item.status === 'CLOSED' ? 'Lezárva' : 'Várakozik') }}
-                          </span>
-                        </div>
-                        <p class="card-text">{{ agenda_item.description }}</p>
-
-                        @if (agenda_item.resolutions && agenda_item.resolutions.length > 0) {
-                          @let mainRes = agenda_item.resolutions[0];
-                          
-                          <div class="voting-box p-3 bg-light border rounded mt-3">
-                            <p class="mb-2"><strong>Határozati javaslat:</strong> {{ mainRes.text }}</p>
-                            
-                            @if (agenda_item.status === 'ACTIVE') {
-                              @if (!votedResolutionIds.has(mainRes.id)) {
-                                <div class="d-flex gap-2 justify-content-center mt-3">
-                                  <button (click)="onVote(mainRes.id, 'yes')" class="btn btn-success px-4">IGEN</button>
-                                  <button (click)="onVote(mainRes.id, 'no')" class="btn btn-danger px-4">NEM</button>
-                                  <button (click)="onVote(mainRes.id, 'abstain')" class="btn btn-secondary px-4">TARTÓZKODIK</button>
-                                </div>
-                              } @else {
-                                <div class="alert alert-success text-center mb-0 py-1 mt-2">
-                                  <i class="bi bi-check-circle-fill"></i> Ön szavazott.
-                                </div>
-                              }
-                            }
-                          </div>
-
-                          @if (agenda_item.resolutions.length > 1) {
-                            <div class="mt-3">
-                              <small class="text-muted fw-bold">Eddigi felszólalások:</small>
-                              @for (res of agenda_item.resolutions; track res.id; let i = $index) {
-                                @if (i > 0) {
-                                  <div class="p-2 border-bottom small text-secondary">
-                                    <i class="bi bi-chat-dots me-1 text-primary"></i> 
-                                    <strong class="text-dark">{{res.user?.name || 'Ismeretlen'}}:</strong> {{ res.text }} 
-                                  </div>
-                                }
-                              }
-                            </div>
-                          }
-                        }
-
-                        <div class="mt-3 pt-3 border-top d-flex justify-content-end align-items-center gap-2">
-                          @if (hasVotedOnAgendaItem(agenda_item)) {
-                            <small class="text-muted fst-italic"><i class="bi bi-info-circle"></i> Szavazás után már nem lehet felszólalni.</small>
-                          }
-                          <button (click)="onSpeak(agenda_item.id)" class="btn btn-sm btn-outline-primary shadow-sm" 
-                                  [disabled]="agenda_item.status !== 'ACTIVE' || loading || hasVotedOnAgendaItem(agenda_item) || spokenAgendaItemIds.has(agenda_item.id)">
-                            <i class="bi bi-megaphone"></i> Felszólalást kérek
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  }
-                }
+            @if (agenda_item.resolutions.length > 1) {
+            <div class="mt-3">
+              <small class="text-muted fw-bold">Eddigi felszólalások:</small>
+              @for (res of agenda_item.resolutions; track res.id; let i = $index) {
+              @if (i > 0) {
+              <div class="p-2 border-bottom small text-secondary">
+                <i class="bi bi-chat-dots me-1 text-primary"></i>
+                <strong class="text-dark">{{res.user?.name || 'Ismeretlen'}}:</strong> {{ res.text }}
               </div>
-            } @empty {
-              <div class="text-center py-5 bg-white rounded shadow-sm">
-                <p class="text-muted mb-0">Nincsenek aktuális közgyűlések.</p>
-              </div>
+              }
+              }
+            </div>
             }
-          }
+            }
+
+            <div class="mt-3 pt-3 border-top d-flex justify-content-end align-items-center gap-2">
+              @if (hasVotedOnAgendaItem(agenda_item)) {
+              <small class="text-muted fst-italic"><i class="bi bi-info-circle"></i> Szavazás után már nem lehet
+                felszólalni.</small>
+              }
+              <button (click)="onSpeak(agenda_item.id)" class="btn btn-sm btn-outline-primary shadow-sm"
+                [disabled]="agenda_item.status !== 'ACTIVE' || loading || hasVotedOnAgendaItem(agenda_item) || spokenAgendaItemIds.has(agenda_item.id)">
+                <i class="bi bi-megaphone"></i> Felszólalást kérek
+              </button>
+            </div>
+          </div>
+        </div>
         }
+        }
+      </div>
+      } @empty {
+      <div class="text-center py-5 bg-white rounded shadow-sm">
+        <p class="text-muted mb-0">Nincsenek aktuális közgyűlések.</p>
+      </div>
+      }
+      }
+      }
       }
     </div>
   </div>

@@ -74,7 +74,7 @@ export class EditUser implements OnInit {
     this.userService.updateUser(updatedUser).subscribe({
       next: (res: any) => {
         const updated = res.data ? res.data : res;
-        user.is_active = updated.is_active; // Azonnali frissítés a listában
+        user.is_active = updated.is_active;
         Swal.fire({
           icon: user.is_active ? 'success' : 'warning',
           title: user.is_active ? 'Felhasználó aktiválva' : 'Felhasználó letiltva',

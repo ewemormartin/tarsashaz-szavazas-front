@@ -30,7 +30,6 @@ export class EditMeetingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // ID kinyerése az URL-ből: /admin/edit-meeting/2
     this.meetingId = Number(this.route.snapshot.paramMap.get('id'));
     this.loadMeetingData();
   }
@@ -39,7 +38,6 @@ export class EditMeetingComponent implements OnInit {
     this.loading = true;
     this.apiService.getMeeting(this.meetingId).subscribe({
       next: (data) => {
-        // A backendről jövő dátumot formázni kell az input számára (YYYY-MM-DDTHH:mm)
         const formattedDate = data.meeting_date ? new Date(data.meeting_date).toISOString().slice(0, 16) : '';
         
         this.editForm.patchValue({

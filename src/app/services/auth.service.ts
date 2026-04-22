@@ -10,18 +10,16 @@ import { ThemeService } from './theme.service';
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private injector = inject(Injector); // Az Injector-t injektáljuk a mezőben
+  private injector = inject(Injector);
   private userKey = 'current_voter_user';
   private baseUrl = 'http://localhost:8000/api';
 
   constructor(private themeService: ThemeService) { }
 
-  // Felhasználó mentése (bejelentkezéskor hívandó)
   setUser(user: User): void {
     sessionStorage.setItem(this.userKey, JSON.stringify(user));
   }
 
-  // Aktuális felhasználó lekérése a tárolóból
   getCurrentUser(): User | null {
     const userJson = sessionStorage.getItem(this.userKey);
     return userJson ? JSON.parse(userJson) : null;
@@ -58,7 +56,6 @@ export class AuthService {
     return this.injector.get(Router);
   }
 
-  // Kijelentkezés
   logout(): void {
     sessionStorage.removeItem(this.userKey);
     sessionStorage.removeItem('access_token');
@@ -66,7 +63,6 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  // Ellenőrzés, hogy be van-e jelentkezve
   isLoggedIn(): boolean {
     return sessionStorage.getItem(this.userKey) !== null;
   }
@@ -77,7 +73,7 @@ export class AuthService {
   resetPassword(password: string, token: string, email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/reset-password`, {
       password,
-      password_confirmation: password, // Vagy vedd ki külön paraméterként
+      password_confirmation: password,
       token,
       email
     });

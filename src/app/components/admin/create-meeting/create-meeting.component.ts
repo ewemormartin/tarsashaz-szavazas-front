@@ -14,7 +14,6 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./create-meeting.component.css']
 })
 export class CreateMeetingComponent {
-  // Modern Angular: inject() használata a konstruktor helyett
   private fb = inject(FormBuilder);
   private apiService = inject(ApiService);
   public router = inject(Router);
@@ -33,12 +32,10 @@ export class CreateMeetingComponent {
     
   }
 
-  // Getter a FormArray-hez
   get agendaItems() {
     return this.meetingForm.get('agenda_items') as FormArray;
   }
 
-  // Új napirendi pont struktúra létrehozása
   createAgendaItem(): FormGroup {
     return this.fb.group({
       title: ['', Validators.required],
@@ -48,11 +45,9 @@ export class CreateMeetingComponent {
     });
   }
 
-  // Új pont hozzáadása a listához
   addAgendaItem() {
     this.agendaItems.push(this.createAgendaItem());
     
-    // Opcionális: SweetAlert toast visszajelzés az adminnak
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -65,7 +60,6 @@ export class CreateMeetingComponent {
     });
   }
 
-  // Pont eltávolítása (minimum 1 maradnia kell)
   removeAgendaItem(index: number) {
     if (this.agendaItems.length > 1) {
       this.agendaItems.removeAt(index);
@@ -81,7 +75,6 @@ export class CreateMeetingComponent {
 
   onSubmit() {
     if (this.meetingForm.invalid) {
-      // Ha érvénytelen, megjelöljük a mezőket, hogy pirosodjanak
       this.meetingForm.markAllAsTouched();
       Swal.fire({
         title: 'Hiányzó adatok!',
@@ -94,7 +87,6 @@ export class CreateMeetingComponent {
 
     this.loading = true;
 
-    // Adatok előkészítése
     const formData = { ...this.meetingForm.value };
     const rawDate = formData.meeting_date; 
     formData.meeting_date = new Date(rawDate).toISOString();

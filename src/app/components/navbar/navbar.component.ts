@@ -11,7 +11,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule], // Fontos a routerLink miatt!
+  imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -30,11 +30,9 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Figyeljük, hogy változik-e az URL (Admin oldalon vagyunk-e?)
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // Ha az URL-ben benne van, hogy '/admin', akkor admin módban vagyunk
       this.isAdminPage = event.url.includes('/admin');
     });
   }

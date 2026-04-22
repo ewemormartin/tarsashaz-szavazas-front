@@ -37,7 +37,6 @@ export class ConfirmEmailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Kiolvassuk a tokent az URL-ből (pl. /confirm-email/abcdef123...)
     const token = this.route.snapshot.paramMap.get('token');
 
     if (token) {
@@ -56,7 +55,7 @@ export class ConfirmEmailComponent implements OnInit {
           icon: 'success',
           confirmButtonColor: '#4a90e2'
         }).then(() => {
-          this.router.navigate(['/login']); // Visszairányítás a loginra
+          this.router.navigate(['/login']);
         });
       },
       error: (err) => {

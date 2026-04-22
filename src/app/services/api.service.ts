@@ -28,7 +28,6 @@ export class ApiService {
     }, { headers });
   }
 
-  // Admin funkció: Napirendi pont aktiválása
   updateAgendaStatus(id: number, status: string): Observable<any> {
     const token = sessionStorage.getItem('access_token');
     const headers = { 'Authorization': `Bearer ${token}` };
@@ -37,7 +36,7 @@ export class ApiService {
   updateMeeting(id: number, meetingData: any): Observable<any> {
     const token = sessionStorage.getItem('access_token');
     const headers = { 'Authorization': `Bearer ${token}` };
-    // PUT kérést küldünk a módosításhoz
+
     return this.http.put(`${this.baseUrl}/meetings/${id}`, meetingData, { headers });
   }
   requestToSpeak(agendaItemId: number, comment: string, username:any): Observable<any> {
@@ -47,11 +46,8 @@ export class ApiService {
     const body = {
       agenda_item_id: agendaItemId,
       text: comment,
-      username: username // Biztosítjuk, hogy szám legyen
+      username: username
     };
-
-    // Ellenőrizd a végpontot! A kódodban most: /resolutions/ 
-    // Biztos, hogy a felszólalás (comment) a határozatokhoz (resolutions) megy?
     return this.http.post(`${this.baseUrl}/resolutions/`, body, { headers });
   }
   createMeeting(meetingData: any): Observable<any> {
@@ -87,21 +83,19 @@ export class ApiService {
     return this.http.put(`${this.baseUrl}/users/${userId}`, data, { headers });
   }
   attendMeeting(meetingId: number): Observable<any> {
-    const token = sessionStorage.getItem('access_token'); // EZ HIÁNYZOTT
+    const token = sessionStorage.getItem('access_token');
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post(`${this.baseUrl}/meetings/${meetingId}/attend`, {}, { headers });
   }
 
-  // JAVÍTOTT: Megismételt közgyűlés státusz (Admin gombja)
   toggleRepeated(meetingId: number): Observable<any> {
-    const token = sessionStorage.getItem('access_token'); // EZ HIÁNYZOTT
+    const token = sessionStorage.getItem('access_token');
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.put(`${this.baseUrl}/meetings/${meetingId}/toggle-repeated`, {}, { headers });
   }
 
-  // JAVÍTOTT: Felhasználó aktiválása/letiltása
   toggleUserStatus(userId: number): Observable<any> {
-    const token = sessionStorage.getItem('access_token'); // EZ HIÁNYZOTT
+    const token = sessionStorage.getItem('access_token');
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.put(`${this.baseUrl}/users/${userId}/toggle-status`, {}, { headers });
   }

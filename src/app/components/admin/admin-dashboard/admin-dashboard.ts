@@ -93,14 +93,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     return votes.reduce((sum: number, v: any) => sum + (Number(v.user?.ownership_ratio) || 0), 0);
   }
 
-  // getSpeechCount(meeting: any): number {
-  //   let count = 0;
-  //   meeting.agenda_items?.forEach((item: any) => {
-  //     const speeches = item.resolutions?.filter((r: any) => r.text && r.text.trim() !== '' && r.user_id !== null);
-  //     count += speeches?.length || 0;
-  //   });
-  //   return count;
-  // }
   getSpeechCount(meeting: any): number {
     let count = 0;
     meeting.agenda_items?.forEach((item: any) => {
@@ -111,60 +103,11 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     return count;
   }
 
-  // showSpeeches(meeting: any) {
-  //   let content = '<div style="text-align: left; max-height: 500px; overflow-y: auto; padding: 5px;">';
-  //   let hasSpeeches = false;
-  //   meeting.agenda_items?.forEach((item: any) => {
-  //     const speeches = item.resolutions?.filter((r: any) => r.text && r.text.trim() !== '');
-  //     if (speeches && speeches.length > 0) {
-  //       hasSpeeches = true;
-  //       content += `
-  //         <div style="margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;">
-  //           <div style="background-color: #0dcaf0; color: white; padding: 10px 15px; font-weight: bold; font-size: 0.9rem;">
-  //             <i class="bi bi-bookmark-fill me-2"></i>Napirend: ${item.title}
-  //           </div>
-  //           <div style="padding: 10px; background: #fff;">`;
-
-  //       speeches.forEach((s: any) => {
-  //         const userName = s.user?.name || 'Névtelen hozzászóló';
-  //         const userRatio = s.user?.ownership_ratio || '0';
-  //         content += `
-  //           <div style="margin-bottom: 10px; padding: 12px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #0dcaf0;">
-  //             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-  //               <strong style="color: #333;">👤 ${userName}</strong>
-  //               <span style="font-size: 0.75rem; font-weight: bold; color: #0dcaf0;">${userRatio} th.</span>
-  //             </div>
-  //             <div style="color: #555; line-height: 1.4; font-size: 0.95rem; font-style: italic;">
-  //               "${s.text}"
-  //             </div>
-  //           </div>`;
-  //       });
-  //       content += `</div></div>`;
-  //     }
-  //   });
-
-  //   content += '</div>';
-
-  //   if (!hasSpeeches) {
-  //     Swal.fire('Nincs felszólalás', 'Ehhez a közgyűléshez még nem érkezett észrevétel.', 'info');
-  //     return;
-  //   }
-
-  //   Swal.fire({
-  //     title: '<span style="font-size: 1.5rem; font-weight: 800;">🎤 Felszólalások listája</span>',
-  //     html: content,
-  //     width: '700px',
-  //     confirmButtonText: 'Értettem',
-  //     confirmButtonColor: '#0dcaf0',
-  //     customClass: { popup: 'rounded-4 shadow-lg' }
-  //   });
-  // }
   showSpeeches(meeting: any) {
     let content = '<div style="text-align: left; max-height: 500px; overflow-y: auto; padding: 5px;">';
     let hasSpeeches = false;
 
     meeting.agenda_items?.forEach((item: any) => {
-      // KRITIKUS JAVÍTÁS: Itt is hozzáadtuk a r.user_id !== null feltételt!
       const speeches = item.resolutions?.filter((r: any) => r.user_id !== null);
       
       if (speeches && speeches.length > 0) {
@@ -232,21 +175,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // onToggleRepeated(meetingId: number) {
-  //   this.apiService.toggleRepeated(meetingId).subscribe({
-  //     next: () => {
-  //       this.meetings = this.meetings.map(m =>
-  //         m.id === meetingId ? { ...m, is_repeated: true } : m
-  //       );
-  //       Swal.fire('Siker', 'A korlátozás feloldva.', 'success');
-  //     }
-  //   });
-  // }
 onToggleRepeated(meetingId: number) {
   this.apiService.toggleRepeated(meetingId).subscribe({
     next: (updatedMeeting: any) => {
-      // JAVÍTÁS: A backend válaszát (updatedMeeting) beillesztjük a listába
-      // Így a polling is már a frissített adatot fogja látni
       this.meetings = this.meetings.map(m => 
         m.id === meetingId ? { ...m, is_repeated: updatedMeeting.is_repeated } : m
       );
@@ -268,12 +199,10 @@ onToggleRepeated(meetingId: number) {
 isAccepted(item: any, meeting: any): boolean {
   const results = this.getVoteResults(item);
   
-  // Ha megismételt a közgyűlés: egyszerű többség a jelenlévők között (Igen > Nem)
   if (meeting.is_repeated) {
     return results.yes > results.no;
   }
   
-  // Ha normál közgyűlés: abszolút többség kell (Igen > 5000)
   return results.yes > 5000;
 }
   

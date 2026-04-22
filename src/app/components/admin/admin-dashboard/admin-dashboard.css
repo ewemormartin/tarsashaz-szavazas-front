@@ -156,7 +156,7 @@
     display: block !important;
   }
 
-  /* 3. A JEGYZŐKÖNYV BLOKK - Itt van a lényeg */
+  /* 3. A JEGYZŐKÖNYV BLOKK */
   .print-only {
     display: block !important;
     width: 100% !important;
@@ -167,7 +167,7 @@
     
     /* OLDALTÖRÉS KÉNYSZERÍTÉSE */
     page-break-after: always; /* Minden jegyzőkönyv után új oldal jön */
-    break-after: page;        /* Modern böngészőknek */
+    break-after: page;
     
     /* Pozícionálás javítása multi-page esetén */
     position: relative !important; 

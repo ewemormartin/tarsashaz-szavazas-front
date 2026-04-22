@@ -21,13 +21,13 @@ export interface AgendaItem {
   id: number;
   title: string;
   description: string;
-  status: 'PENDING' | 'ACTIVE' | 'CLOSED'; // Ezt a logikát a frontend/backend közösen kezeli
+  status: 'PENDING' | 'ACTIVE' | 'CLOSED';
   resolutions: Resolution[];
 }
 export interface Owner {
   id: string;
   name: string;
-  share: number; // Tulajdoni hányad (pl. 245 a 10000-ből)
+  share: number;
 }
 
 export interface Apartment {
@@ -47,15 +47,6 @@ export interface Vote {
   share: number;
   choice: 'IGEN' | 'NEM' | 'TARTÓZKODIK';
 }
-
-// export interface AgendaItem {
-//   id: number;
-//   title: string;
-//   description?: string;
-//   status: 'PENDING' | 'ACTIVE' | 'CLOSED'; // PENDING: még nem aktív, ACTIVE: szavazható, CLOSED: lezárt
-//   votes: Vote[];
-//   speakers: string[]; // Felszólalók listája
-// }
 
 export interface AppState {
   totalShareBase: number; // pl. 10000

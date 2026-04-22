@@ -29,7 +29,6 @@ export class SpeechRequestsComponent implements OnInit, OnDestroy {
         switchMap(() => this.apiService.getMeeting(this.meetingId))
       )
       .subscribe(data => {
-        // Csak azokat a napirendi pontokat szűrjük le, ahol van felszólaló
         this.agendaItems = data.agenda_items.filter((item: any) => item.speakers && item.speakers.length > 0);
       });
   }

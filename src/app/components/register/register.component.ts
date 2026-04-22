@@ -24,14 +24,13 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]], // 6 karakteres minimum
+      password: ['', [Validators.required, Validators.minLength(6)]],
       password_confirmation: ['', [Validators.required]]
     }, { 
-      validators: this.passwordMatchValidator // Egyedi validátor a jelszóegyezéshez
+      validators: this.passwordMatchValidator
     });
   }
 
-  // Jelszó egyezőség ellenőrzése
   passwordMatchValidator(control: AbstractControl) {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('password_confirmation')?.value;
@@ -72,7 +71,7 @@ export class RegisterComponent {
         }
       });
     } else {
-      this.registerForm.markAllAsTouched(); // Megjeleníti a hibákat, ha üresen küldik el
+      this.registerForm.markAllAsTouched();
     }
   }
 }

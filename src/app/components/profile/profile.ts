@@ -14,7 +14,6 @@ export class ProfileComponent implements OnInit {
   currentOwner: any;
 
   ngOnInit(): void {
-    // Lekérjük a bejelentkezett felhasználót
     this.currentOwner = this.userService.getCurrentUser();
   }
 }

@@ -46,7 +46,7 @@
               <i class="bi bi-trash-fill"></i>
             </button>
           } @else {
-            <!-- HA LOCKOLT (Folyamatban vagy Lezárva): Csak egy lakat és egy infó -->
+            
             <span class="badge bg-light text-muted border px-3 py-2 rounded-pill">
               <i class="bi bi-lock-fill me-1"></i> Adatok zárolva (Folyamatban)
             </span>
@@ -171,7 +171,7 @@
       <div class="fs-3">
         <strong>HATÁROZAT: </strong>
         
-        <!-- 1. Ellenőrizzük az érvényességet (Quorum) -->
+        <!-- 1. Ellenőrizzük az érvényességet -->
         @if (calculateAttendance(meeting.present_users) <= 5000 && !meeting.is_repeated) {
           <span class="text-danger fw-bold">ÉRVÉNYTELEN</span>
           <div class="small text-danger">(A közgyűlés nem volt határozatképes)</div>

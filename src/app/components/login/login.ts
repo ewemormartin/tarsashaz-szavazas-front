@@ -44,7 +44,6 @@ export class LoginComponent {
           localStorage.setItem('access_token', response.token);
           this.userService.setUser(response.user);
         }
-        // Szerepkör alapú átirányítás
         
         if (response.user.role === "admin") {
           this.router.navigate(['/admin']);

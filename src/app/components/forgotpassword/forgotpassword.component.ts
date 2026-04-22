@@ -17,7 +17,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./forgotpassword.component.css'],
 })
 export class ForgotpasswordComponent {
-  // Modern Angular: inject() használata
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
 
@@ -46,7 +45,6 @@ export class ForgotpasswordComponent {
         this.loading = false;
         this.message = 'A jelszóvisszaállító hivatkozást sikeresen elküldtük!';
         
-        // Professzionális visszajelzés
         Swal.fire({
           title: 'E-mail elküldve!',
           text: 'Kérjük, ellenőrizze a beérkező leveleit (és a spam mappát is) a jelszó visszaállításához.',
@@ -55,7 +53,6 @@ export class ForgotpasswordComponent {
           confirmButtonText: 'Értettem'
         });
 
-        // Form kiürítése
         this.forgotPasswordForm.reset();
       },
       error: (err) => {

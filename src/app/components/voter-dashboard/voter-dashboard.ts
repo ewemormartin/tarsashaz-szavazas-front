@@ -38,7 +38,7 @@ export class VoterDashboardComponent implements OnInit, OnDestroy {
   constructor(
     private apiService: ApiService,
     private userService: UserService,
-    public authService: AuthService // Public, hogy a HTML-ből elérjük a logout-ot
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -50,14 +50,12 @@ export class VoterDashboardComponent implements OnInit, OnDestroy {
     this.pollingSub = interval(5000).pipe(
       startWith(0),
       switchMap(() => this.apiService.getMeetings().pipe(
-        // Ha sikerül a kérés, a júzer AKTÍV
         tap(() => {
           if (this.currentUser && !this.currentUser.is_active) {
             this.currentUser.is_active = true;
             this.userService.setUser(this.currentUser);
           }
         }),
-        // Ha 403-at kap, a júzer INAKTÍV
         catchError((err) => {
           if (err.status === 403 && this.currentUser) {
             this.currentUser.is_active = false;
@@ -69,7 +67,7 @@ export class VoterDashboardComponent implements OnInit, OnDestroy {
       map((res: any) => (res && res.data ? res.data : res)),
       switchMap((meetingsArray: any[]) => {
         if (!Array.isArray(meetingsArray) || meetingsArray.length === 0) return of([]);
-        const detailRequests = meetingsArray.map(m => 
+        const detailRequests = meetingsArray.map(m =>
           this.apiService.getMeeting(m.id).pipe(
             map(mRes => mRes.data ? mRes.data : mRes),
             catchError(() => of(null))
@@ -158,11 +156,10 @@ export class VoterDashboardComponent implements OnInit, OnDestroy {
     });
   }
   isMeetingClosed(meeting: any): boolean {
-  if (!meeting.agenda_items || meeting.agenda_items.length === 0) return false;
-  
-  // A közgyűlés akkor tekinthető lezártnak, ha minden napirendi pontja CLOSED állapotú
-  return meeting.agenda_items.every((item: any) => item.status === 'CLOSED');
-}
+    if (!meeting.agenda_items || meeting.agenda_items.length === 0) return false;
+
+    return meeting.agenda_items.every((item: any) => item.status === 'CLOSED');
+  }
 
   getStatusClass(status: string): string {
     return status === 'ACTIVE' ? 'bg-success text-white' : (status === 'CLOSED' ? 'bg-secondary text-white' : 'bg-warning text-dark');
