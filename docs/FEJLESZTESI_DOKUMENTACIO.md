@@ -76,7 +76,6 @@ A rendszer Angular 21-es keretrendszerre épül, kizárólag **standalone kompon
 | Ikonok | Bootstrap Icons (CDN) | 1.11.3 |
 | Értesítési modál könyvtár | SweetAlert2 | ^11.26.19 |
 | Reaktív programozás | RxJS | ~7.8.0 |
-| Tesztelési keretrendszer | Vitest | ^4.0.8 |
 | Csomagkezelő | npm | 11.3.0 |
 | Fejlesztői szerver | Angular DevKit / Vite | ^21.2.0 |
 | Kódformázás | Prettier | (beépítve package.json-ba) |
